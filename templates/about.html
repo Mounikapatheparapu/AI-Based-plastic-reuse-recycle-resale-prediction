@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — RRR Industrial AI</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #4cc9f0;
+      --accent-2: #7be9c8;
+      --muted: #cbd7df;
+      --bg-dark: #071523;
+      --max-w: 1200px;
+    }
+
+    /* GLOBAL STYLES */
+    html, body {
+      height: 100%; margin: 0; 
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg-dark); 
+      color: #eaf6fb;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: var(--accent-2); }
+
+    .navbar {
+      background: rgba(11, 0, 0, 0.884) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .navbar-brand,
+    .nav-link {
+      color: white !important;
+    }
+    .nav-link:hover {
+      color: rgb(45, 198, 228) !important;
+    }
+
+    /* HERO - changed so image starts immediately under navbar (no card) */
+     .hero-section {
+      /* removed card gap: start flush under navbar */
+      margin-top: 0;
+      /* keep the same background image you used */
+      background: url('/static/assets/img-2.jpg') center/cover no-repeat;
+      /* ensure hero is full-width and not rounded */
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: calc(70px + 24px) 20px 120px; /* leaves room for fixed navbar */
+      border-radius: 0; /* remove rounded card look */
+      position: relative;
+      color: #ffffff;
+      text-align: center;
+    }
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      border-radius: 0; /* match hero no-card */
+      z-index: 0;
+    }
+    .hero-section * { position: relative; z-index: 1; }
+
+    /* SECTION WRAPPER */
+    .section-wrapper,
+    .ai-tech {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.55);
+      padding: 56px 28px;
+      max-width: var(--max-w);
+      margin: 40px auto;
+      backdrop-filter: blur(8px);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .section-wrapper:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .section-title {
+      font-size: 2rem; 
+      margin-bottom: 24px; 
+      color: #fff;
+      font-weight: 700;
+    }
+    .section-title::after {
+      content: '';
+      display: block; 
+      width: 60px; 
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      margin-top: 8px; 
+      border-radius: 3px;
+    }
+
+    .section-content p,
+    .section-content ul {
+      font-size: 16px; 
+      line-height: 1.7; 
+      color: var(--muted);
+    }
+    .section-content ul { 
+      padding-left: 20px; 
+      margin: 16px 0;
+    }
+    .section-content ul li { 
+      margin-bottom: 10px; 
+    }
+
+    /* AI TECH GRID */
+    .ai-tech {
+      max-width: var(--max-w);
+      padding: 40px 20px;
+      margin: 40px auto;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    /* AI CARD DESIGN */
+    .ai-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      animation: fadeIn 1s ease;
+    }
+
+    .ai-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 15px 40px rgba(76, 201, 240, 0.25);
+    }
+
+.ai-icon-wrapper {
+   width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+    .ai-card img {
+       width: 34px;
+       height: 34px;
+    }
+
+    .ai-card h3 {
+      margin: 8px 0 12px;
+      font-size: 1.15rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .ai-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .ai-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 2.4rem; }
+    }
+    @media (max-width: 900px) {
+      .ai-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .section-wrapper,
+      .ai-tech {
+        margin: 24px 16px;
+        padding: 40px 20px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* our Team */
+    /* TEAM SECTION */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.team-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 15px 40px rgba(76, 201, 240, 0.25);
+}
+
+.team-photo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  border: 3px solid var(--accent);
+  object-fit: cover;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+.bio {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE TEAM */
+@media (max-width: 1100px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+  footer.site-footer {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 40px 18px;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      margin-top: 60px;
+      color: #fff;
+      z-index:2;
+      position:relative;
+    }
+
+    .footer-inner {
+      max-width:var(--max-w);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap:28px 40px;
+      align-items:center;
+      align-content:center;
+      color: var(--muted);
+    }
+
+    .footer-col { min-width:0; opacity:0; transform: translateY(10px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+    .footer-col.visible { opacity:1; transform: translateY(0); }
+
+    .footer-brand {
+      color:#ffffff;
+      font-weight:700;
+      font-size:1.05rem;
+      margin-bottom:8px;
+    }
+
+    .footer-desc { color:var(--muted); line-height:1.6; font-size:14px; margin-bottom:12px; }
+
+    .footer-links a { color:var(--muted); display:block; margin:8px 0; font-size:14px; }
+
+    .team-list { display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:14px; }
+
+    .socials { display:flex; gap:10px; margin-top:8px; }
+    .socials a { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(255,255,255,0.02); color:var(--accent); }
+
+    .legal { color:rgba(255,255,255,0.55); font-size:13px; margin-top:14px; }
+
+    /* small utility for links hover to match contact page */
+    .footer-links a:hover { color:#00d2ff; padding-left:6px; transition: .2s; }
+
+    @media (max-width:600px) {
+      .hero-inner { padding:20px; }
+      .hero-title { font-size:28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+ <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid justify-content-end">
+         <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+  <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="RRR Logo" style="height:40px; border-radius: 100%;">
+</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="./index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+         <li class="nav-item"><a class="nav-link " href="ourai.html">Our AI</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- HERO -->
+<main class="hero-section ">
+  <div>
+    <h1>About RRR Industrial AI</h1>
+    <p>We design and implement AI systems for industrial environments. Our focus is on creating scalable, secure, and production-ready AI solutions that integrate seamlessly with enterprise operations.
+By combining advanced machine learning, automation, and real-time analytics, we help industries improve efficiency, reduce downtime, and unlock meaningful insights from complex data.</p>
+  </div>
+</main>
+
+<!-- Project Overview -->
+<section class="section-wrapper">
+  <h2 class="section-title">About the Project</h2>
+  <div class="section-content">
+    <p><strong>RRR Prediction</strong> is an intelligent platform that transforms plastic waste management. Instead of treating plastic as waste, the system analyzes its characteristics to recommend reuse, resale, or recycling.</p>
+    <ul>
+      <li><strong>Resale Value:</strong> Estimated market price for resale channels.</li>
+      <li><strong>Recycle Score:</strong> Processability without quality loss.</li>
+      <li><strong>Reuse Score:</strong> Safety and usability in current form.</li>
+    </ul>
+    <p>Our platform empowers households, shops, and recycling centers to make smarter, eco-conscious decisions.</p>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="section-wrapper">
+  <h2 class="section-title">Our Mission</h2>
+  <div class="section-content">
+    <p>We aim to make sustainable plastic handling simple, practical, and accessible for everyone.</p>
+    <ul>
+      <li>Promote circular economy via intelligent reuse.</li>
+      <li>Reduce landfill and ocean pollution.</li>
+      <li>Provide transparent, data-driven insights.</li>
+      <li>Enable fair pricing for reusable plastics.</li>
+      <li>Support industrial and community recycling efforts.</li>
+    </ul>
+    <p>With RRR Prediction, plastic becomes a resource — not refuse.</p>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section-wrapper">
+  <h2 class="section-title">How It Works</h2>
+  <div class="section-content">
+    <p>Users input basic details about plastic waste:</p>
+    <ul>
+      <li>Type of plastic (PET, HDPE, etc.)</li>
+      <li>Condition (cracked, stained, intact)</li>
+      <li>Age and weight</li>
+      <li>Contamination level</li>
+    </ul>
+    <p>Our AI analyzes these inputs and outputs actionable scores for reuse, recycle, and resale — instantly guiding the best next step.</p>
+  </div>
+</section>
+
+<!-- Why Choose RRR -->
+<section class="section-wrapper">
+  <h2 class="section-title">Why Choose RRR?</h2>
+  <div class="section-content">
+    <ul>
+      <li><strong>Easy & Fast:</strong> Get insights in seconds.</li>
+      <li><strong>Accurate:</strong> Built on real-world waste data.</li>
+      <li><strong>Eco-Impact:</strong> Reduce your environmental footprint.</li>
+      <li><strong>Economic Value:</strong> Unlock hidden resale potential.</li>
+      <li><strong>Scalable:</strong> From homes to recycling plants.</li>
+    </ul>
+    <p>RRR Prediction isn’t just technology — it’s a movement toward a cleaner planet.</p>
+  </div>
+</section>
+
+<!-- AI TECHNOLOGY CARDS -->
+<section class="ai-tech">
+  <h2 class="section-title">AI in Sustainability</h2>
+  <div class="ai-grid">
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712028.png" alt="AI in Recycling">
+      </div>
+      <h3>AI in Recycling</h3>
+      <p>AI helps sort waste, identify recyclable materials, and automate recycling systems using machine vision.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920217.png" alt="AI for Reuse">
+      </div>
+      <h3>AI for Reuse</h3>
+      <p>AI-powered analysis finds creative ways to reuse products by tracking usage patterns and material life.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/2883/2883867.png" alt="AI for Reduction">
+      </div>
+      <h3>AI for Reduction</h3>
+      <p>Smart systems reduce waste generation by predicting consumption, optimizing manufacturing, and saving energy.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/1087/1087840.png" alt="Smart Earth Protection">
+      </div>
+      <h3>Smart Earth Protection</h3>
+      <p>AI supports environmental monitoring, climate prediction, and pollution control for a greener world.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/2917/2917242.png" alt="AI in Resale Platforms">
+      </div>
+      <h3>AI in Resale Platforms</h3>
+      <p>AI recommends second-hand products, optimizes pricing, and predicts what sells fastest for sustainable commerce.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Smart Sorting for Reuse">
+      </div>
+      <h3>Smart Sorting for Reuse</h3>
+      <p>Robotic AI systems sort waste and identify reusable components efficiently, reducing landfill loads.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="{{ url_for('static', filename='assets/predictive-models.png') }}" alt="Predictive Maintenanc">
+      </div>
+      <h3>Predictive Maintenance</h3>
+      <p>AI predicts when products or machines need repair, extending life and minimizing waste.</p>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-icon-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/2881/2881353.png" alt="Material Recovery">
+      </div>
+      <h3>Material Recovery</h3>
+      <p>AI helps reclaim valuable materials from e-waste and industrial by-products for reuse.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- OUR TEAM SECTION -->
+<section class="section-wrapper">
+  <h2 class="section-title">Our Team</h2>
+
+  <div class="team-grid">
+
+    <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/dinesh.jpeg') }}"alt="Dinesh" class="team-photo">
+      <h3>Dinesh</h3>
+      <p class="role">Full-Stack Developer</p>
+      <p class="bio">Developed the About page and contributed to backend integrations, ensuring smooth functionality and consistent system performance.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/balakrishna.jpg') }}" alt="BalaKrishna" class="team-photo">
+      <h3>Bala Krishna</h3>
+      <p class="role">Full-Stack Developer</p>
+      <p class="bio">Handles the complete frontend development, UI design, and responsive layouts to ensure a smooth, modern, and user-friendly experience.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/mounica.jpeg') }}" alt="Mounika" class="team-photo">
+      <h3>Mounika</h3>
+      <p class="role">Full-Stack Developer</p>
+      <p class="bio">Builds and manages the backend, APIs, and homepage integration to deliver fast, secure, and production-ready features.</p>
+    </div>
+
+     <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/fardeen.jpeg') }}" alt="Fardeen" class="team-photo">
+      <h3>Fardeen</h3>
+      <p class="role">Data Science</p>
+      <p class="bio"> Worked on deeper EDA, identifying missing values, applying imputation techniques 
+          and detecting/removing outliers using statistical and visual methods.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/siddiq.jpeg') }}" alt="Siddiq" class="team-photo">
+      <h3>siddiq</h3>
+      <p class="role">Data Science</p>
+      <p class="bio">Focused on building machine-learning models, tuning hyperparameters, 
+          validating performance and preparing the final model for deployment.</p>
+    </div>
+
+    <div class="team-card">
+      <img src="{{ url_for('static', filename='assets/prashanthi.jpeg') }}" alt="prashnathi" class="team-photo">
+      <h3>prasanthi</h3>
+      <p class="role">Data Science</p>
+      <p class="bio">Responsible for collecting raw datasets, organizing sources, cleaning initial data 
+          and performing Exploratory Data Analysis (EDA) to understand patterns, trends and distributions.</p>
+    </div>
+
+
+  </div>
+</section>
+
+   <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div>
+        <div class="footer-brand">RRR</div>
+        <div class="footer-desc">
+          Industrial AI solutions — infrastructure, 
+          model ops and secure production deployments. Clean, scalable, 
+          and built for enterprise integration
+        </div>
+
+        <div class="socials">
+          <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-brand" style="font-size: 1rem;">Quick Links</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About us</a>
+          <a href="datascience.html">Data Science</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-brand" style="font-size: 1rem;">Resources</div>
+        <div class="footer-links">
+          <a href="https://cloud.google.com/resources/content/state-of-ai-infrastructure">AI Infrastructure</a>
+        <a href="https://www.evidentlyai.com/ml-in-production/model-monitoring">Model Monitoring</a>
+        <a href="https://owasp.org/www-project-spvs/">Secure Pipelines</a>
+        <a href="https://en.wikipedia.org/wiki/Automation">Automation</a>
+        <a href="https://www.geeksforgeeks.org/software-engineering/software-deployment-in-software-development/">Deployments</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-brand" style="font-size: 1rem;">Team & Partners</div>
+        <div class="footer-links">
+          <a>FullStack</a>
+          <a>Data Science</a>
+        </div>
+
+        <div class="legal">© <span id="year"></span> RRR · All rights reserved</div>
+      </div>
+    </div>
+  </footer>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // set copyright year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

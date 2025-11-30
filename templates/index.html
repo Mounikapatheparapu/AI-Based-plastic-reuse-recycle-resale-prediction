@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RRR — Industrial AI Technology</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent: #4cc9f0;
+      --accent-2: #7be9c8;
+      --muted: #cbd7df;
+      --bg-dark: #071523;
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --max-w:1200px;
+      --ease: cubic-bezier(.2,.9,.3,1);
+
+      /* animation tuning */
+      --float-distance: 8px;
+      --float-duration: 6s;
+      --hover-scale: 1.06;
+      --hover-translateY: -12px;
+      --hover-shadow: 0 40px 100px rgba(2,6,12,0.65);
+
+      /* background image */
+      --bg-image: url('/static/assets/AI.jpg');
+      --right-image: url('/static/assets/img-2.jpg');
+
+    }
+
+    /* NOTE: navbar is NOT fixed now — no body padding required */
+
+    html,body{ height:100%; margin:0; font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial; background:var(--bg-dark); color:#eaf6fb; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; overflow-x:hidden; }
+    a { text-decoration: none; }
+    .sr-only { position: absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+    /* background + animated layers */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(3,6,10,0.55), rgba(3,6,10,0.75)),
+        var(--bg-image) center/cover no-repeat;
+      transition: opacity .3s ease;
+      filter: contrast(1.02) saturate(1.05);
+    }
+    .page-bg .gradient-move { position:absolute; inset:-10%; background: radial-gradient(900px 500px at 0% 10%, rgba(76,201,240,0.06), transparent 12%), radial-gradient(700px 500px at 100% 80%, rgba(123,233,200,0.05), transparent 14%); opacity:0.95; animation: bgShift 20s ease-in-out infinite; filter: blur(12px); mix-blend-mode: screen; }
+    @keyframes bgShift { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-3%,1.2%,0) scale(1.02); } 100% { transform: translate3d(0,0,0) scale(1); } }
+    .page-bg .blob { position:absolute; border-radius:50%; filter: blur(26px) saturate(120%); opacity:0.12; will-change: transform, opacity; }
+    .page-bg .blob.b1 { width:520px; height:520px; top:-80px; right:-100px; background: linear-gradient(90deg, rgba(76,201,240,0.78), rgba(123,233,200,0.64)); animation: drift1 28s linear infinite; }
+    .page-bg .blob.b2 { width:380px; height:380px; left:-140px; bottom:-60px; background: linear-gradient(90deg, rgba(123,233,200,0.62), rgba(76,201,240,0.68)); animation: drift2 34s linear infinite; opacity:0.14; }
+    .page-bg .blob.b3 { width:280px; height:280px; left:8%; top:18%; background: radial-gradient(circle, rgba(255,255,255,0.06), rgba(124,200,235,0.04)); animation: drift3 24s ease-in-out infinite; }
+    @keyframes drift1 { 0% { transform: translate3d(0,0,0) rotate(0deg) scale(1);} 50% { transform: translate3d(-6%,4%,0) rotate(8deg) scale(1.05);} 100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); } }
+    @keyframes drift2 { 0% { transform: translate3d(0,0,0) rotate(0deg) scale(1);} 50% { transform: translate3d(5%,-5%,0) rotate(-6deg) scale(1.06);} 100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); } }
+    @keyframes drift3 { 0% { transform: translate3d(0,0,0) scale(1); opacity:0.12;} 50% { transform: translate3d(2%,-2%,0) scale(1.08); opacity:0.16;} 100% { transform: translate3d(0,0,0) scale(1); opacity:0.12;} }
+    .page-bg::after{ content:""; position:absolute; inset:0; background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.01), transparent 2%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.008), transparent 2%); mix-blend-mode: overlay; opacity:0.6; pointer-events:none; }
+
+    /* ---------------- NAVBAR (from contact page style) ---------------- */
+    .navbar {
+      background: rgba(11, 0, 0, 0.884) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .navbar-brand,
+    .nav-link {
+      color: white !important;
+    }
+    .nav-link:hover {
+      color: rgb(56, 181, 248) !important;
+    }
+
+    /* .navbar-brand { font-size: 1.05rem; letter-spacing: 1px; color: white !important; transform: translateY(-6px); opacity:0; animation: brandIn .6s cubic-bezier(.2,.9,.3,1) .12s both; }
+    @keyframes brandIn { to { transform:translateY(0); opacity:1; } }
+
+    .nav-link { font-size: 0.98rem; margin-right: 14px; transition: 0.22s; color: white !important; opacity:0; transform: translateY(6px); }
+    .nav-link.show { opacity:1; transform: translateY(0); }
+    .nav-link:hover { color: rgb(130, 166, 244) !important; transform: translateY(-2px); }
+    .navbar-toggler { border-color: rgba(255,255,255,0.06); }
+    .navbar-toggler-icon { filter: invert(1) brightness(0.9); } */
+
+    /* HERO */
+    .hero { min-height:88vh; display:flex; align-items:center; justify-content:center; position:relative; padding-top:12px; overflow:hidden; z-index:1; }
+    .hero::after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(3,6,10,0.30), rgba(3,6,10,0.52)); z-index:1; pointer-events:none; }
+    .hero-inner{ z-index:2; width:100%; max-width:var(--max-w); padding:48px; margin:auto; display:grid; grid-template-columns: 1fr 360px; gap:28px; align-items:center; }
+    .hero-panel{ background: rgba(2,6,12,0.45); border-radius:18px; padding:36px; border:1px solid rgba(255,255,255,0.04); box-shadow: 0 18px 50px rgba(0,0,0,0.6); animation:panelIn .9s var(--ease) both; }
+    .tag { display:inline-block; padding:6px 10px; background:rgba(76,201,240,0.08); color:var(--accent); border-radius:999px; font-weight:700; font-size:13px; margin-bottom:14px; opacity:0; transform: translateY(8px); animation:tagIn .6s var(--ease) .18s both; }
+    @keyframes tagIn { to { opacity:1; transform:translateY(0); } }
+
+    /* reveal effect for the headline (clip-path) */
+    .hero-title { font-size:42px; line-height:1.02; margin:8px 0 12px; color:#fff; letter-spacing:-0.6px; overflow: hidden; display:inline-block; }
+    .hero-title span { display:inline-block; transform: translateY(110%); opacity:0; animation: titleUp .64s var(--ease) forwards; }
+    .hero-title span:nth-child(1){ animation-delay:.12s } .hero-title span:nth-child(2){ animation-delay:.18s } .hero-title span:nth-child(3){ animation-delay:.24s } .hero-title span:nth-child(4){ animation-delay:.30s }
+    @keyframes titleUp { to { transform: translateY(0%); opacity:1 } }
+
+    .hero-sub { color:var(--muted); font-size:16px; line-height:1.6; margin-bottom:18px; max-width:720px; opacity:0; transform: translateY(8px); animation: subIn .6s var(--ease) .34s both; }
+    @keyframes subIn { to { opacity:1; transform: translateY(0) } }
+
+    .hero-actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center; } /* <-- centered button */
+    .btn-explore { padding:12px 18px; border-radius:12px; font-weight:800; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #042029; box-shadow: 0 12px 36px rgba(76,201,240,0.08); transform-origin:center; transition: transform .28s var(--ease), box-shadow .28s var(--ease); animation: ctaIn .6s var(--ease) .44s both; }
+    .btn-explore:hover { transform: scale(1.02) translateY(-3px); box-shadow: 0 26px 70px rgba(76,201,240,0.12); }
+    @keyframes ctaIn { from { opacity:0; transform: translateY(8px) scale(.98) } to { opacity:1; transform: translateY(0) scale(1) } }
+
+    /* RIGHT: plain image (no card) */
+    .hero-right { display:flex; align-items:center; justify-content:center; width:100%; height:100%; }
+    .hero-plain { display:block; max-width:280px; width:100%; height:auto; border-radius:8px; filter: drop-shadow(0 18px 50px rgba(0,0,0,0.55)); opacity:0; transform: translateY(12px) rotate(-3deg); transition: transform 520ms var(--ease), opacity 520ms ease, filter .28s ease; }
+    .hero-plain.in-view { opacity:1; transform: translateY(0) rotate(0deg); }
+    .hero-plain.float { animation: heroImgFloat var(--float-duration) ease-in-out infinite; }
+    @keyframes heroImgFloat { 0% { transform: translateY(0); } 50% { transform: translateY(calc(-1 * var(--float-distance))); } 100% { transform: translateY(0); } }
+
+    /* AI cards section (updated to match hero alignment) */
+    .ai-tech {
+      width:100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      padding:56px 18px;
+      color: #eaf6fb;
+      z-index:2;
+      position:relative;
+      display:flex;
+      justify-content:center;
+    }
+    .ai-inner {
+      max-width:var(--max-w);
+      width:100%;
+      margin:0 auto;
+      display:flex;
+      justify-content:center;
+    }
+
+    .ai-panel {
+      background: rgba(2,6,12,0.45);
+      border-radius:18px;
+      padding:36px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+      width:100%;
+    }
+
+    .ai-header {
+      text-align:center;
+      margin-bottom:20px;
+    }
+    .ai-header h2 { font-size:24px; margin:8px 0 8px; color:#fff; }
+    .ai-header p {
+      color:var(--muted);
+      margin:0 auto 16px;
+      max-width:820px;
+      line-height:1.6;
+    }
+
+    .ai-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-top:18px; }
+
+    .ai-card {
+      background: linear-gradient(180deg, rgba(3,6,10,0.7), rgba(3,6,10,0.82));
+      border-radius:12px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 14px 40px rgba(2,6,12,0.45);
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease), opacity .45s var(--ease);
+      transform: translateY(24px) scale(0.995);
+      opacity: 0;
+      will-change: transform, opacity;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      position:relative;
+      overflow:visible;
+    }
+    .ai-card .tilt { border-radius:10px; transform-style: preserve-3d; transition: transform .28s ease-out; padding:6px; }
+    .ai-card .ai-icon { width:56px; height:56px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:12px; background: linear-gradient(180deg, var(--accent), var(--accent-2)); color:#042029; transform-origin:center; }
+    .ai-card.in-view .ai-icon { animation: iconPop .46s cubic-bezier(.2,.9,.3,1) both; }
+    @keyframes iconPop { 0% { transform: scale(.6) translateY(8px); opacity:0 } 60% { transform: scale(1.06) translateY(-4px); opacity:1 } 100% { transform: scale(1) translateY(0); } }
+
+    .ai-card h3 { margin:0 0 8px; font-size:16px; color:#fff; }
+    .ai-card p { margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+    .ai-card a { display:inline-block; margin-top:10px; font-weight:700; color:var(--accent-2); text-decoration:none; }
+
+    .ai-card.enter-top { opacity:0; transform: translateY(28px) scale(0.99); }
+    .ai-card.enter-top.in-view { opacity:1; transform: translateY(0) scale(1); transition: transform 520ms var(--ease), opacity 520ms ease; }
+    .ai-card.top-float { animation: floatTop var(--float-duration) ease-in-out infinite; }
+    @keyframes floatTop { 0% { transform: translateY(0); } 50% { transform: translateY(calc(-1 * var(--float-distance))); } 100% { transform: translateY(0); } }
+
+    .ai-card.enter-bottom { opacity:0; transform: scale(0.96) translateY(6px); }
+    .ai-card.enter-bottom.in-view { opacity:1; transform: scale(1) translateY(0); transition: transform 420ms cubic-bezier(.2,.9,.25,1), opacity 420ms ease; }
+    .ai-card.bottom-float { animation: floatBottom calc(var(--float-duration) - 1s) ease-in-out infinite; }
+    @keyframes floatBottom { 0% { transform: translateY(0); } 50% { transform: translateY(calc(-0.5 * var(--float-distance))); } 100% { transform: translateY(0); } }
+
+    .ai-card:hover, .ai-card:focus-within { box-shadow: 0 30px 70px rgba(2,6,12,0.6); transform: translateY(-10px) scale(1.02); }
+    .ai-card:focus { outline: 3px solid rgba(76,201,240,0.12); }
+
+    .ai-grid.ready { opacity:1; transform: translateY(0); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-plain, .ai-card { transition: none !important; animation: none !important; }
+      .page-bg .gradient-move, .page-bg .blob { animation: none !important; transform: none !important; }
+    }
+
+    @media (max-width:1100px) { .ai-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width:900px) {
+      .ai-grid { grid-template-columns: 1fr; }
+      .hero-inner { grid-template-columns: 1fr; padding:28px; gap:22px; }
+      .hero-right { justify-content:center; }
+      .hero-plain { max-width:220px; }
+      .blob.a { display:none; }
+      .page-bg { display:block; }
+    }
+    @media (min-width:1600px) { .ai-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    @keyframes panelIn { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+
+    /* ---------------- FOOTER (contact-style glass footer) ---------------- */
+    footer.site-footer {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 40px 18px;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      margin-top: 60px;
+      color: #fff;
+      z-index:2;
+      position:relative;
+    }
+
+    .footer-inner {
+      max-width:var(--max-w);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap:28px 40px;
+      align-items:center;
+      align-content:center;
+      color: var(--muted);
+    }
+
+    .footer-col { min-width:0; opacity:0; transform: translateY(10px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+    .footer-col.visible { opacity:1; transform: translateY(0); }
+
+    .footer-brand {
+      color:#ffffff;
+      font-weight:700;
+      font-size:1.05rem;
+      margin-bottom:8px;
+    }
+
+    .footer-desc { color:var(--muted); line-height:1.6; font-size:14px; margin-bottom:12px; }
+
+    .footer-links a { color:var(--muted); display:block; margin:8px 0; font-size:14px; }
+
+    .team-list { display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:14px; }
+
+    .socials { display:flex; gap:10px; margin-top:8px; }
+    .socials a { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(255,255,255,0.02); color:var(--accent); }
+
+    .legal { color:rgba(255,255,255,0.55); font-size:13px; margin-top:14px; }
+
+    /* small utility for links hover to match contact page */
+    .footer-links a:hover { color:#00d2ff; padding-left:6px; transition: .2s; }
+
+    @media (max-width:600px) {
+      .hero-inner { padding:20px; }
+      .hero-title { font-size:28px; }
+    }
+    .socials a:hover {
+  background: rgba(0, 210, 255, 0.2);
+  transform: scale(1.1);
+}
+  </style>
+</head>
+<body>
+  <!-- background -->
+  <div class="page-bg" aria-hidden="true">
+    <div class="gradient-move"></div>
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+    <div class="blob b3" aria-hidden="true"></div>
+  </div>
+
+  <!-- NAV (replaced with contact-style navbar) -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid justify-content-end">
+   <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+     <img src="{{ url_for('static', filename='assets/logo.png') }}"
+       alt="RRR Logo" style="height:40px; border-radius:100%;">
+</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="./index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+          <li class="nav-item"><a class="nav-link " href="ourai.html">Our AI</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main class="hero" role="main" aria-labelledby="main-heading">
+    <div class="blob a" aria-hidden="true"></div>
+    <div class="blob b" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <section class="hero-panel" aria-labelledby="main-heading">
+        <div class="tag">TECHNOLOGY • AI</div>
+        <h1 id="main-heading" class="hero-title">ARTIFICIAL INTELLIGENCE TECHNOLOGY</h1>
+        <p class="hero-sub">
+          Industrial AI infrastructure and systems engineered for reliability, scale and real-world integration.
+          We focus on the technical foundations: model operations, secure pipelines, and enterprise deployments.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn-explore" href="about.html">Explore</a>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: plain PNG (no card) -->
+      <aside class="hero-right" aria-label="AI highlight image">
+        <img id="heroPlainImg" class="hero-plain" src="{{ url_for('static', filename='assets/img-3.png') }}"alt="AI illustration" loading="lazy">
+      </aside>
+    </div>
+  </main>
+
+  <!-- AI TECHNOLOGY SECTION -->
+  <section id="ai-tech" class="ai-tech" aria-labelledby="ai-heading">
+    <div class="ai-inner">
+      <section class="ai-panel" aria-labelledby="ai-heading">
+        <div class="ai-header">
+          <h2 id="ai-heading">About Our AI Technology</h2>
+          <p>
+            Our approach to industrial AI focuses on delivering reliable, secure, and maintainable machine-learning systems.
+            From data collection and model training to deployment and monitoring, each component is designed for production-grade performance and compliance.
+          </p>
+        </div>
+
+        <div class="ai-grid" role="list" id="aiGrid">
+          <article class="ai-card enter-top" role="listitem" aria-labelledby="ai-1-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-database"></i></div>
+              <h3 id="ai-1-title">Data & Ingestion</h3>
+              <p>Robust pipelines to collect, validate and enrich raw data — with schema checks, lineage and automated quality gates to ensure trustable inputs.</p>
+              <a href="https://www.geeksforgeeks.org/data-engineering/what-is-data-ingestion/" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+
+          <article class="ai-card enter-top" role="listitem" aria-labelledby="ai-2-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-brain"></i></div>
+              <h3 id="ai-2-title">Model Training</h3>
+              <p>Experiment tracking, distributed training and reproducible pipelines with hyperparameter tuning and model versioning for reliable results.</p>
+              <a href="https://www.geeksforgeeks.org/machine-learning/steps-to-build-a-machine-learning-model/" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+
+          <article class="ai-card enter-top" role="listitem" aria-labelledby="ai-3-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-play-circle"></i></div>
+              <h3 id="ai-3-title">Serving & Inference</h3>
+              <p>Low-latency, high-throughput model serving with autoscaling, batching, and canary deployments to keep production responsive and safe.</p>
+              <a href="https://www.geeksforgeeks.org/artificial-intelligence/what-is-ai-inference-in-machine-learning/" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+
+          <article class="ai-card enter-bottom" role="listitem" aria-labelledby="ai-4-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-robot"></i></div>
+              <h3 id="ai-4-title">MLOps & Monitoring</h3>
+              <p>End-to-end model lifecycle: CI/CD for models, drift detection, metrics dashboards and automated rollback to maintain accuracy over time.</p>
+              <a href="https://www.geeksforgeeks.org/machine-learning/end-to-end-mlops-pipeline-a-comprehensive-project/" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+
+          <article class="ai-card enter-bottom" role="listitem" aria-labelledby="ai-5-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></div>
+              <h3 id="ai-5-title">Security & Compliance</h3>
+              <p>Privacy-preserving designs, encryption, role-based access and audit trails to meet enterprise and regulatory security obligations.</p>
+              <a href="https://www.progress.com/blogs/what-is-security-compliance" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+
+          <article class="ai-card enter-bottom" role="listitem" aria-labelledby="ai-6-title" tabindex="0">
+            <div class="tilt">
+              <div class="ai-icon" aria-hidden="true"><i class="fas fa-satellite-dish"></i></div>
+              <h3 id="ai-6-title">Edge & IoT</h3>
+              <p>Optimized runtimes and model compression for edge devices — enabling offline inference, reduced latency and distributed intelligence.</p>
+              <a href="https://www.geeksforgeeks.org/computer-networks/edge-computing/" target="_blank" rel="noopener noreferrer">Learn more →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- FOOTER (replaced with contact-style footer) -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <!-- About / Brand -->
+      <div class="footer-col" aria-label="About">
+        <div class="footer-brand">RRR</div>
+        <div class="footer-desc">Industrial AI solutions — infrastructure, 
+          model ops and secure production deployments. Clean, scalable, 
+          and built for enterprise integration.</div>
+        <div class="socials" aria-label="Social links">
+          <a href="https://facebook.com" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col footer-links" aria-label="Quick links">
+        <div class="footer-brand" style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:10px;">Quick Links</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About us</a>
+        <a href="datascience.html">Data Science</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <!-- Resources / Technology -->
+      <div class="footer-col footer-links" aria-label="Resources">
+        <div class="footer-brand" style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:10px;">Resources</div>
+        <a href="https://cloud.google.com/resources/content/state-of-ai-infrastructure">AI Infrastructure</a>
+        <a href="https://www.evidentlyai.com/ml-in-production/model-monitoring">Model Monitoring</a>
+        <a href="https://owasp.org/www-project-spvs/">Secure Pipelines</a>
+        <a href="https://en.wikipedia.org/wiki/Automation">Automation</a>
+        <a href="https://www.geeksforgeeks.org/software-engineering/software-deployment-in-software-development/">Deployments</a>
+      </div>
+
+      <!-- Team & Partners -->
+      <div class="footer-col " aria-label="Team and partners">
+        <div class="footer-brand" style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:10px;">Team & Partners</div>
+
+        <div class="team-list" aria-label="Core team">
+          <div><strong>Core Team:</strong></div>
+          <div>FullStack</div>
+          <div>Data Science</div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="legal">© <span id="year"></span> RRR · All rights reserved</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- scripts -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    window.addEventListener('load', () => {
+      // NAV: staggered reveal of nav links (keeps previous behavior)
+      const navLinks = document.querySelectorAll('#navList .nav-link');
+      navLinks.forEach((n, i) => setTimeout(()=> n.classList.add('show'), 80*i + 120));
+
+      // show + float the plain hero image
+      const img = document.getElementById('heroPlainImg');
+      if (img) {
+        setTimeout(() => {
+          img.classList.add('in-view');
+          img.classList.add('float');
+        }, 220);
+      }
+
+      // reveal ai-grid as a unit, then cards will animate via IntersectionObserver
+      const grid = document.getElementById('aiGrid');
+      if (grid) setTimeout(()=> grid.classList.add('ready'), 380);
+
+      // stagger ai-cards initial-ready
+      document.querySelectorAll('.ai-card').forEach((el, i) => {
+        setTimeout(() => el.classList.add('initial-ready'), 80 * i + 160);
+      });
+
+      // IntersectionObserver: top vs bottom card animation
+      const cards = Array.from(document.querySelectorAll('.ai-card'));
+      const opts = { root: null, rootMargin: '0px 0px -12% 0px', threshold: 0.12 };
+      const onEntry = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const idx = cards.indexOf(el);
+            setTimeout(()=>{
+              if (idx >= 0 && idx <= 2) el.classList.add('in-view','top-float');
+              else el.classList.add('in-view','bottom-float');
+              const tilt = el.querySelector('.tilt');
+              if (tilt) tilt.style.transform = 'translateZ(6px)';
+            }, (idx % 3) * 90);
+            observer.unobserve(el);
+          }
+        });
+      };
+      const observer = new IntersectionObserver(onEntry, opts);
+      cards.forEach(c => observer.observe(c));
+
+      // interactive tilt for ai-cards on pointer devices
+      const supportsPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsPointer) {
+        document.querySelectorAll('.ai-card').forEach(card => {
+          const wrapper = card.querySelector('.tilt');
+          card.addEventListener('pointermove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const cx = rect.left + rect.width/2;
+            const cy = rect.top + rect.height/2;
+            const dx = (e.clientX - cx) / (rect.width/2);
+            const dy = (e.clientY - cy) / (rect.height/2);
+            const rotX = (dy * 6).toFixed(2);
+            const rotY = (-dx * 6).toFixed(2);
+            if (wrapper) wrapper.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(6px)`;
+          });
+          card.addEventListener('pointerleave', () => {
+            if (wrapper) wrapper.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+          });
+        });
+      }
+
+      // footer reveal when it scrolls into view
+      const footerCols = document.querySelectorAll('.footer-col');
+      const fObs = new IntersectionObserver((entries)=>{
+        entries.forEach((en)=>{
+          if (en.isIntersecting) en.target.classList.add('visible');
+        });
+      }, {threshold:0.06});
+      footerCols.forEach(c=> fObs.observe(c));
+
+      // subtle parallax for background blobs on scroll
+      const blobs = document.querySelectorAll('.page-bg .blob');
+      let lastScroll = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const st = window.scrollY;
+        const diff = st - lastScroll;
+        lastScroll = st;
+        blobs.forEach((b, i) => {
+          const speed = (i+1) * 0.12;
+          const y = Math.round(st * speed);
+          b.style.transform = `translate3d(0,${y}px,0)`;
+        });
+      }, {passive:true});
+
+      // small accessibility: allow keyboard nav link focus to animate like show class
+      document.querySelectorAll('#navList .nav-link').forEach(n => n.addEventListener('focus', ()=> n.classList.add('show')));
+    });
+
+    // keyboard: Enter/Space opens first link inside ai-card (if present)
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('ai-card')) {
+        e.preventDefault();
+        const a = document.activeElement.querySelector('a');
+        if (a) a.click();
+      }
+    });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

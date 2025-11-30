@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Our AI — RRRPrediction</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #4cc9f0;
+      --accent-2: #7be9c8;
+      --muted: #cbd7df;
+      --bg-dark: #071523;
+      --max-w: 1200px;
+    }
+
+    html, body {
+      height: 100%; margin: 0; 
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg-dark); 
+      color: #eaf6fb;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: var(--accent-2); }
+    .navbar { 
+      background: rgba(11,0,0,0.884) !important; 
+      backdrop-filter: blur(12px); 
+      border-bottom: 2px solid rgba(255,255,255,0.4); 
+    }
+    .navbar-brand, .nav-link { color: white !important; }
+    .nav-link:hover { color: var(--accent) !important; }
+
+    .section-wrapper { 
+        max-width: var(--max-w); 
+        margin: 40px auto;  
+        padding: 40px 20px; 
+    }
+
+    /* Hero section */
+    .hero-section {
+      margin-top: 120px;
+      background: url('/static/assets/img-4.webp') no-repeat center center/cover;
+      padding: 120px 20px 80px;
+      border-radius: 12px;
+      position: relative;
+      color: #ffffff;
+      text-align: center;
+    }
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      z-index: 0;
+    }
+    .hero-section * { position: relative; z-index: 1; }
+
+    .section-title { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); }
+    .section-desc { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; line-height: 1.6; }
+
+    .ai-card { 
+      background: rgba(255,255,255,0.05); 
+      padding: 20px; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+      transition: transform 0.3s; 
+    }
+    .ai-card:hover { transform: translateY(-6px); }
+    .ai-card h4 { color: var(--accent-2); margin-bottom: 12px; }
+    .ai-card p { color: var(--muted); font-size: 0.95rem; }
+    .ai-card ul { color: var(--muted); margin-top: 12px; }
+
+    /* Footer */
+     footer.site-footer {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 40px 18px;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+      margin-top: 60px;
+      color: #fff;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap:28px 40px;
+      align-items:center;
+      color: var(--muted);
+    }
+
+    .footer-col { min-width:0; }
+    .footer-brand { color:#ffffff; font-weight:700; margin-bottom:8px; }
+    .footer-desc { color:var(--muted); line-height:1.6; font-size:14px; margin-bottom:12px; }
+    .footer-links a { color:var(--muted); display:block; margin:8px 0; font-size:14px; text-decoration:none; }
+    .footer-links a:hover { color:#00d2ff; padding-left:6px; transition: .2s; }
+
+    .team-list { display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:14px; }
+    .socials { display:flex; gap:10px; margin-top:8px; }
+    .socials a { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(255,255,255,0.02); color:var(--accent); }
+    .legal { color:rgba(255,255,255,0.55); font-size:13px; margin-top:14px; }
+
+    @media (max-width:600px) {
+      .hero-inner { padding:20px; }
+      .hero-title { font-size:28px; }
+    }
+.socials a {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #00d2ff;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.socials a:hover {
+  background: rgba(0, 210, 255, 0.2);
+  transform: scale(1.1);
+}
+    /* Custom modal form */
+    .form-container { 
+      padding: 20px;
+    }
+    .btn-custom {
+      background: var(--accent);
+    }
+    .btn-custom {
+  background: var(--accent);
+  transition: background 0.3s;
+}
+
+.btn-custom:hover {
+  background: #28a745; /* green color on hover */
+}
+
+/* Glassmorphism Modal */
+.modal-content {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.form-control {
+  background: rgba(255,255,255,0.1) !important;
+  color: white !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+}
+.form-control::placeholder {
+  color: rgba(255,255,255,0.6) !important;
+}
+.op{
+color: #071523;
+}
+
+.accordion-button:not(.collapsed) {
+  background: var(--accent) !important;
+  color: #071523 !important;
+}
+.accordion-button:focus {
+  box-shadow: none !important;
+}
+
+/* Horizontal slide panel animation */
+.panel-wrap {
+  display: flex;
+  width: 200%; /* double width: form + result */
+  transition: transform 0.5s ease-in-out;
+}
+
+.panel {
+  width: 50%; /* each panel takes half of the wrap */
+}
+
+.panel-wrap.show-result {
+  transform: translateX(-50%); /* slide to result section */
+}
+
+.panel-wrap {
+  display: flex;
+  width: 200%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.panel {
+  width: 50%;
+}
+
+.panel-wrap.show-result {
+  transform: translateX(-50%);
+}
+
+/* Responsive video wrapper for demo modal */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.video-wrapper video,
+.video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid justify-content-end">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+  <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="RRR Logo" style="height:40px; border-radius: 100%;">
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="./index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+          <li class="nav-item"><a class="nav-link " href="ourai.html">Our AI</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO / SUMMARY -->
+<section class="section-wrapper hero-section">
+  <h2 class="section-title">RRRPrediction — Industrial AI Project</h2>
+  <p class="section-desc">
+    Resale Value Model – Gradient Boosting
+Predicts the selling price of a used plastic item based on features like weight, condition, age, original price, and material type.
+
+Recycle Value Model – Gradient Boosting
+Predicts the recycling payout amount a recycler will offer, mainly driven by weight, recyclability of the plastic type, and condition.
+
+Reuse Score Model – CatBoost
+Predicts a reuseability score (0–100) showing how durable and reusable the plastic item is, using condition, age, and material quality.
+
+  </p>
+  <button class="btn btn-custom text-white" data-bs-toggle="modal" data-bs-target="#tryNowModal">Try Now</button>
+  <!-- NEW DEMO BUTTON (added beside Try Now) -->
+  <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#demoModal">Demo</button>
+</section>
+
+<!-- FULL STACK & DATA SCIENCE SIDE BY SIDE -->
+<!-- <section class="section-wrapper">
+  <div class="container">
+    <h2 class="section-title text-center">Our Work</h2>
+    <p class="section-desc text-center">
+      RRRPrediction combines robust Full Stack Development with advanced Data Science to deliver enterprise-ready AI solutions.
+    </p>
+
+    <div class="row mt-4 g-4">
+      <div class="col-lg-6 col-md-12">
+        <div class="ai-card h-100">
+          <h4>Full Stack Development</h4>
+          <p>We built a responsive and scalable web interface to interact with our AI model, including secure APIs, dashboards, and real-time predictions.</p>
+          <ul>
+            <li><strong>Frontend:</strong> HTML, CSS, Bootstrap, JavaScript</li>
+            <li><strong>Backend:</strong> Python Flask, API endpoints</li>
+            <li><strong>Database:</strong> SQL/NoSQL for smooth data retrieval</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="ai-card h-100">
+          <h4>Data Science</h4>
+          <p>Our AI model uses state-of-the-art ML techniques to predict industrial outcomes with high accuracy and reliability.</p>
+          <ul>
+            <li><strong>Data Collection:</strong> Cleaned and prepared industrial datasets</li>
+            <li><strong>Model Training:</strong> Machine learning algorithms & hyperparameter tuning</li>
+            <li><strong>Deployment & Monitoring:</strong> Integrated AI with real-time monitoring</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- FAQ SECTION -->
+<section class="section-wrapper">
+  <h2 class="section-title text-center">Frequently Asked Questions</h2>
+  <p class="section-desc text-center">Common questions about RRRPrediction and how our AI system works.</p>
+
+  <div class="accordion" id="faqAccordion">
+
+    <div class="accordion-item bg-dark text-white">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+          What is RRRPrediction?
+        </button>
+      </h2>
+      <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          RRRPrediction is an industrial AI project designed to analyze plastic conditions and predict recycling value using data science and full stack integration.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item bg-dark text-white">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+          How does the AI model generate predictions?
+        </button>
+      </h2>
+      <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Using trained machine learning models along with plastic parameters such as type, weight, age, and condition to estimate recycling value.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item bg-dark text-white">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+          Can I integrate this with other software?
+        </button>
+      </h2>
+      <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Yes, the backend is built with Flask APIs and can be integrated with ERP systems, industrial dashboards, and third-party applications.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item bg-dark text-white">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+          Is my data secure?
+        </button>
+      </h2>
+      <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Yes, all user inputs are protected with secure handling, and data is processed using encrypted API endpoints.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item bg-dark text-white">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+          How can I contact support?
+        </button>
+      </h2>
+      <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          Visit our Contact Page or reach us through email and social media channels listed below.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+ <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-brand">RRR</div>
+        <div class="footer-desc">
+          Industrial AI solutions — infrastructure, model ops and secure production deployments. Clean, scalable, and built for enterprise integration.
+        </div>
+        <div class="socials" aria-label="Social links">
+        <a href="https://facebook.com" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+      </div>
+
+      <div class="footer-col footer-links">
+        <div class="footer-brand">Quick Links</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About us</a>
+        <a href="datascience.html">Data Science</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col footer-links">
+        <div class="footer-brand">Resources</div>
+        <a href="https://cloud.google.com/resources/content/state-of-ai-infrastructure">AI Infrastructure</a>
+        <a href="https://www.evidentlyai.com/ml-in-production/model-monitoring">Model Monitoring</a>
+        <a href="https://owasp.org/www-project-spvs/">Secure Pipelines</a>
+        <a href="https://en.wikipedia.org/wiki/Automation">Automation</a>
+        <a href="https://www.geeksforgeeks.org/software-engineering/software-deployment-in-software-development/">Deployments</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-brand">Team & Partners</div>
+        <div class="team-list">
+          <div><strong>Core Team:</strong></div>
+          <div>FullStack</div>
+          <div>Data Science</div>
+        </div>
+        <div class="legal">© <span id="year"></span> RRR · All rights reserved</div>
+      </div>
+    </div>
+  </footer>
+<!-- MODAL -->
+<!-- MODAL: REPLACE YOUR OLD tryNowModal BLOCK WITH THIS ONE -->
+<div class="modal fade" id="tryNowModal" tabindex="-1" aria-labelledby="tryNowModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="tryNowModalLabel">Plastic Details Form</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="panel-wrap" id="panelWrap">
+
+          <!-- FORM PANEL: visible first -->
+          <div class="panel form-panel" id="formPanel" style="position:relative; transform:translateX(0);">
+            <div class="form-container">
+              <form id="plasticForm" class="row g-2">
+                <!-- left column (3 inputs) -->
+                <div class="col-sm-6">
+                  <div class="mb-2">
+                    <label for="plasticType" class="form-label">Plastic Type</label>
+                    <input type="text" id="plasticType" class="form-control" placeholder="Enter plastic type" autocomplete="off">
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="weight" class="form-label">Weight (in kg)</label>
+                    <input type="number" id="weight" class="form-control" placeholder="Enter weight" step="any" min="0">
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="price" class="form-label">Original Price (₹)</label>
+                    <input type="number" id="price" class="form-control" placeholder="Enter price" step="any" min="0">
+                  </div>
+                </div>
+
+                <!-- right column (3 inputs) -->
+                <div class="col-sm-6">
+                  <div class="mb-2">
+                    <label for="plasticCondition" class="form-label">Plastic Condition</label>
+                    <select id="plasticCondition" class="form-control">
+                      <option class="op" value="">Select Condition</option>
+                      <option class="op" value="New">New</option>
+                      <option class="op" value="Good">Good</option>
+                      <option class="op" value="Used">Used</option>
+                      <option class="op" value="Cracked">Cracked</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="age" class="form-label">Age (in months)</label>
+                    <input type="number" id="age" class="form-control" placeholder="Enter age" min="0">
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" class="form-control" placeholder="Enter location" autocomplete="off">
+                  </div>
+                </div>
+
+                <!-- Submit button full width -->
+                <div class="col-12 text-center mt-2">
+                  <button type="button" class="btn btn-custom text-white" id="predictBtn">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- RESULT PANEL -->
+          <div class="panel result-panel" id="resultPanel" style="position:relative; transform:translateX(100%);">
+            <div class="p-2">
+              <div id="resultContent"></div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn btn-custom text-white" id="closeModalBtn" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /.panel-wrap -->
+      </div> <!-- /.modal-body -->
+    </div>
+  </div>
+</div>
+
+<!-- DEMO VIDEO MODAL (NEW) -->
+<div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="demoModalLabel">RRRPrediction — Demo</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="video-wrapper">
+          <!-- Replace the source below with your static file path or a remote URL -->
+          <video controls playsinline preload="metadata" poster="{{ url_for('static', filename='assets/demo-poster.jpg') }}">
+            <source src="{{ url_for('static', filename='assets/demo.mp4') }}" type="video/mp4">
+            <!-- Fallback: You can embed a YouTube iframe by uncommenting below and commenting out the <video> tag -->
+            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+            Your browser does not support the video tag. You can <a href="{{ url_for('static', filename='assets/demo.mp4') }}">download the demo</a>.
+          </video>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Modal form behavior: horizontal form, submit -> slide to result panel, back -> slide to form.
+   This script assumes your page already includes Bootstrap JS. It resets to form when modal opens.
+*/
+
+(function(){
+  const panelWrap = document.getElementById('panelWrap');
+  const resultContent = document.getElementById('resultContent');
+  const predictBtn = document.getElementById('predictBtn');
+  const backToFormBtn = document.getElementById('backToFormBtn');
+  const tryNowModalEl = document.getElementById('tryNowModal');
+
+  // Show form panel (remove 'show-result' class) — safe reset function
+  function showFormPanel() {
+    panelWrap.classList.remove('show-result');
+    // ensure transform states for better fallback
+    document.getElementById('formPanel').style.transform = 'translateX(0)';
+    document.getElementById('resultPanel').style.transform = 'translateX(100%)';
+    // clear previous result
+    resultContent.innerHTML = '';
+  }
+
+  // show result panel
+  function showResultPanel() {
+    panelWrap.classList.add('show-result');
+    document.getElementById('formPanel').style.transform = 'translateX(-100%)';
+    document.getElementById('resultPanel').style.transform = 'translateX(0)';
+  }
+
+  // reset when modal opens: ensure form visible and focus first field
+  tryNowModalEl.addEventListener('show.bs.modal', function () {
+    showFormPanel();
+    setTimeout(()=> document.getElementById('plasticType').focus(), 200);
+  });
+
+  // ensure reset on hidden as well
+  tryNowModalEl.addEventListener('hidden.bs.modal', function () {
+    showFormPanel();
+  });
+
+  // Back button -> return to form (keeps values)
+  //backToFormBtn.addEventListener('click', function(e){
+    //e.preventDefault();
+    //showFormPanel();
+    //setTimeout(()=> document.getElementById('plasticType').focus(), 300);
+  //});
+
+  // Submit: validation + request (same behavior as earlier). Slides to result panel showing errors or results.
+  predictBtn.addEventListener('click', async function(e){
+    e.preventDefault();
+    const btn = this;
+    btn.disabled = true;
+    const origText = btn.innerText;
+    btn.innerText = 'Submitting...';
+
+    const ptype = document.getElementById('plasticType').value.trim();
+    const condition = document.getElementById('plasticCondition').value;
+    const weight = document.getElementById('weight').value;
+    const age = document.getElementById('age').value;
+    const price = document.getElementById('price').value;
+    const location = document.getElementById('location').value.trim();
+
+    // validations
+    if (!ptype) {
+      resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter the plastic type.</div>';
+      showResultPanel();
+      btn.disabled = false;
+      btn.innerText = origText;
+      return;
+    }
+    if (!condition) {
+      resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please select the plastic condition.</div>';
+      showResultPanel();
+      btn.disabled = false;
+      btn.innerText = origText;
+      return;
+    }
+    if (weight === "" || isNaN(Number(weight)) || Number(weight) <= 0) {
+      resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter a valid weight (>0).</div>';
+      showResultPanel();
+      btn.disabled = false;
+      btn.innerText = origText;
+      return;
+    }
+    if (age === "" || isNaN(Number(age)) || Number(age) < 0) {
+      resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter a valid age (>=0).</div>';
+      showResultPanel();
+      btn.disabled = false;
+      btn.innerText = origText;
+      return;
+    }
+
+    const payload = { ptype, condition, weight: Number(weight), age: Number(age), price: price ? Number(price) : null, location: location || null };
+
+    try {
+      const resp = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!resp.ok) {
+        let txt = 'Server error';
+        try { const j = await resp.json(); txt = j.error || j.details || JSON.stringify(j); } catch (err) {}
+        resultContent.innerHTML = `<div class="alert alert-danger mb-0">Prediction failed: ${escapeHtml(txt)}</div>`;
+        showResultPanel();
+      } else {
+        const res = await resp.json();
+        const resale = res.resale_value ?? res.resale ?? 'N/A';
+        const recycle = res.recycle_score ?? res.recycle ?? 'N/A';
+        const reuse = res.reuse_score ?? res.reuse ?? 'N/A';
+
+        resultContent.innerHTML = `
+          <div class="ai-card">
+            <h4 class="mb-2">Prediction Result</h4>
+            <p><strong>Resale Value:</strong> ${escapeHtml(String(resale))}</p>
+            <p><strong>Recycle Score:</strong> ${escapeHtml(String(recycle))}</p>
+            <p><strong>Reuse Score:</strong> ${escapeHtml(String(reuse))}</p>
+          </div>
+        `;
+        showResultPanel();
+      }
+    } catch (err) {
+      console.error(err);
+      resultContent.innerHTML = `<div class="alert alert-danger mb-0">Unexpected error: ${escapeHtml(err.message || String(err))}</div>`;
+      showResultPanel();
+    } finally {
+      btn.disabled = false;
+      btn.innerText = origText;
+    }
+  });
+
+  // simple HTML escape utility
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
+  }
+})();
+panelWrap.classList.add('show-result');
+</script>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
