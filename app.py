@@ -178,6 +178,6 @@ def startup_info():
 if __name__ == "__main__":
     startup_info()
     # When running locally, use PORT env var if present (Railway supplies PORT)
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     # Bind to all interfaces so host can reach container
     app.run(host="0.0.0.0", port=port, debug=False)
