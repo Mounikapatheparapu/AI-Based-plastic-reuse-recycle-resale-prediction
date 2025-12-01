@@ -17,7 +17,7 @@ except Exception:
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 # --- config ---
-MODELS_DIR = "Models"
+MODELS_DIR = "models"
 PREPROCESSOR_PKL = os.path.join(MODELS_DIR, "preprocessor.pkl")
 MODEL_FILES = {
     "Resale_Value": os.path.join(MODELS_DIR, "Resale_Value_GradientBoosting_Model.pkl"),
@@ -177,5 +177,7 @@ def startup_info():
 
 if __name__ == "__main__":
     startup_info()
+    # When running locally, use PORT env var if present (Railway supplies PORT)
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    # Bind to all interfaces so host can reach container
+    app.run(host="0.0.0.0", port=port, debug=False)
