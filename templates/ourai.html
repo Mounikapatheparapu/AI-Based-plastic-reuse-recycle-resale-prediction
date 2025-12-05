@@ -19,26 +19,26 @@
     }
 
     html, body {
-      height: 100%; margin: 0; 
+      height: 100%; margin: 0;
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-      background: var(--bg-dark); 
+      background: var(--bg-dark);
       color: #eaf6fb;
       overflow-x: hidden;
     }
 
     a { text-decoration: none; color: var(--accent-2); }
-    .navbar { 
-      background: rgba(11,0,0,0.884) !important; 
-      backdrop-filter: blur(12px); 
-      border-bottom: 2px solid rgba(255,255,255,0.4); 
+    .navbar {
+      background: rgba(11,0,0,0.884) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(255,255,255,0.4);
     }
     .navbar-brand, .nav-link { color: white !important; }
     .nav-link:hover { color: var(--accent) !important; }
 
-    .section-wrapper { 
-        max-width: var(--max-w); 
-        margin: 40px auto;  
-        padding: 40px 20px; 
+    .section-wrapper {
+        max-width: var(--max-w);
+        margin: 40px auto;
+        padding: 40px 20px;
     }
 
     /* Hero section */
@@ -64,12 +64,12 @@
     .section-title { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); }
     .section-desc { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; line-height: 1.6; }
 
-    .ai-card { 
-      background: rgba(255,255,255,0.05); 
-      padding: 20px; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
-      transition: transform 0.3s; 
+    .ai-card {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
     }
     .ai-card:hover { transform: translateY(-6px); }
     .ai-card h4 { color: var(--accent-2); margin-bottom: 12px; }
@@ -131,7 +131,7 @@
   transform: scale(1.1);
 }
     /* Custom modal form */
-    .form-container { 
+    .form-container {
       padding: 20px;
     }
     .btn-custom {
@@ -174,36 +174,19 @@ color: #071523;
   box-shadow: none !important;
 }
 
-/* Horizontal slide panel animation */
+/* Horizontal slide panel animation kept for result switching, but modal now shows form + video side-by-side */
 .panel-wrap {
   display: flex;
-  width: 200%; /* double width: form + result */
-  transition: transform 0.5s ease-in-out;
-}
-
-.panel {
-  width: 50%; /* each panel takes half of the wrap */
-}
-
-.panel-wrap.show-result {
-  transform: translateX(-50%); /* slide to result section */
-}
-
-.panel-wrap {
-  display: flex;
-  width: 200%;
-  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  gap: 0;
 }
 
 .panel {
   width: 50%;
+  min-height: 220px;
 }
 
-.panel-wrap.show-result {
-  transform: translateX(-50%);
-}
-
-/* Responsive video wrapper for demo modal */
+/* Responsive video wrapper for demo modal and try modal's right panel */
 .video-wrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
@@ -215,6 +198,13 @@ color: #071523;
 .video-wrapper iframe {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
+}
+
+/* small tweak so form scrolls nicely on small screens */
+.modal-body .panel { padding: 12px; }
+@media (max-width: 768px) {
+  .panel { width: 100%; }
+  .panel-wrap { flex-direction: column; }
 }
   </style>
 </head>
@@ -242,7 +232,7 @@ color: #071523;
 
 <!-- HERO / SUMMARY -->
 <section class="section-wrapper hero-section">
-  <h2 class="section-title">RRRPrediction — Industrial AI Project</h2>
+  <h2 class="section-title">AI BASED PLASTIC REUSE RESALE RECYCLE PREDICTION  </h2>
   <p class="section-desc">
     Resale Value Model – Gradient Boosting
 Predicts the selling price of a used plastic item based on features like weight, condition, age, original price, and material type.
@@ -254,45 +244,9 @@ Reuse Score Model – CatBoost
 Predicts a reuseability score (0–100) showing how durable and reusable the plastic item is, using condition, age, and material quality.
 
   </p>
+  <!-- Try Now button kept. Demo button REMOVED per your request. -->
   <button class="btn btn-custom text-white" data-bs-toggle="modal" data-bs-target="#tryNowModal">Try Now</button>
-  <!-- NEW DEMO BUTTON (added beside Try Now) -->
-  <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#demoModal">Demo</button>
 </section>
-
-<!-- FULL STACK & DATA SCIENCE SIDE BY SIDE -->
-<!-- <section class="section-wrapper">
-  <div class="container">
-    <h2 class="section-title text-center">Our Work</h2>
-    <p class="section-desc text-center">
-      RRRPrediction combines robust Full Stack Development with advanced Data Science to deliver enterprise-ready AI solutions.
-    </p>
-
-    <div class="row mt-4 g-4">
-      <div class="col-lg-6 col-md-12">
-        <div class="ai-card h-100">
-          <h4>Full Stack Development</h4>
-          <p>We built a responsive and scalable web interface to interact with our AI model, including secure APIs, dashboards, and real-time predictions.</p>
-          <ul>
-            <li><strong>Frontend:</strong> HTML, CSS, Bootstrap, JavaScript</li>
-            <li><strong>Backend:</strong> Python Flask, API endpoints</li>
-            <li><strong>Database:</strong> SQL/NoSQL for smooth data retrieval</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-12">
-        <div class="ai-card h-100">
-          <h4>Data Science</h4>
-          <p>Our AI model uses state-of-the-art ML techniques to predict industrial outcomes with high accuracy and reliability.</p>
-          <ul>
-            <li><strong>Data Collection:</strong> Cleaned and prepared industrial datasets</li>
-            <li><strong>Model Training:</strong> Machine learning algorithms & hyperparameter tuning</li>
-            <li><strong>Deployment & Monitoring:</strong> Integrated AI with real-time monitoring</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
 
 <!-- FAQ SECTION -->
 <section class="section-wrapper">
@@ -369,7 +323,6 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
   </div>
 </section>
 
-
 <!-- FOOTER -->
  <footer class="site-footer">
     <div class="footer-inner">
@@ -414,8 +367,8 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
       </div>
     </div>
   </footer>
-<!-- MODAL -->
-<!-- MODAL: REPLACE YOUR OLD tryNowModal BLOCK WITH THIS ONE -->
+
+<!-- MODAL: TRY NOW (form left, video right) -->
 <div class="modal fade" id="tryNowModal" tabindex="-1" aria-labelledby="tryNowModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content bg-dark text-white">
@@ -425,18 +378,29 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
       </div>
 
       <div class="modal-body">
+        <!-- side-by-side: left = form, right = video -->
         <div class="panel-wrap" id="panelWrap">
 
-          <!-- FORM PANEL: visible first -->
-          <div class="panel form-panel" id="formPanel" style="position:relative; transform:translateX(0);">
+          <!-- LEFT: FORM -->
+          <div class="panel form-panel" id="formPanel">
             <div class="form-container">
               <form id="plasticForm" class="row g-2">
                 <!-- left column (3 inputs) -->
                 <div class="col-sm-6">
-                  <div class="mb-2">
-                    <label for="plasticType" class="form-label">Plastic Type</label>
-                    <input type="text" id="plasticType" class="form-control" placeholder="Enter plastic type" autocomplete="off">
-                  </div>
+                 <div class="mb-2">
+                 <label for="plasticType" class="form-label">Plastic Type</label>
+                  <select id="plasticType" class="form-control">
+                  <option value="" disabled selected>Select plastic type</option>
+                  <option class="op" value="PET">PET (Polyethylene Terephthalate)</option>
+                  <option class="op" value="HDPE">HDPE (High-Density Polyethylene)</option>
+                  <option class="op" value="PVC">PVC (Polyvinyl Chloride)</option>
+                  <option class="op" value="LDPE">LDPE (Low-Density Polyethylene)</option>
+                  <option class="op" value="PP">PP (Polypropylene)</option>
+                 <option class="op" value="PS">PS (Polystyrene)</option>
+                 <option class="op" value="Other">ABS</option>
+                  </select>
+                </div>
+
 
                   <div class="mb-2">
                     <label for="weight" class="form-label">Weight (in kg)</label>
@@ -468,37 +432,54 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
                   </div>
 
                   <div class="mb-2">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" id="location" class="form-control" placeholder="Enter location" autocomplete="off">
-                  </div>
+  <label for="location" class="form-label">Location</label>
+  <select id="location" class="form-control">
+    <option value="" disabled selected>Select location</option>
+    <option class="op" value="Hyderabad">Hyderabad</option>
+    <option class="op" value="Bangalore">Bangalore</option>
+    <option class="op" value="Chennai">Chennai</option>
+    <option class="op" value="Mumbai">Mumbai</option>
+    <option class="op" value="Pune">Pune</option>
+    <option class="op" value="Delhi">Delhi</option>
+    <option class="op" value="Kolkata">Kolkata</option>
+  </select>
+</div>
+
                 </div>
 
                 <!-- Submit button full width -->
                 <div class="col-12 text-center mt-2">
                   <button type="button" class="btn btn-custom text-white" id="predictBtn">Submit</button>
                 </div>
+
+                <!-- result area below form (keeps result visible inside left panel) -->
+                <div class="col-12 mt-3">
+                  <div id="resultContent"></div>
+                </div>
               </form>
             </div>
           </div>
 
-          <!-- RESULT PANEL -->
-          <div class="panel result-panel" id="resultPanel" style="position:relative; transform:translateX(100%);">
-            <div class="p-2">
-              <div id="resultContent"></div>
-
-              <div class="d-flex justify-content-between mt-3">
-                <button type="button" class="btn btn-custom text-white" id="closeModalBtn" data-bs-dismiss="modal">Close</button>
-              </div>
+          <!-- RIGHT: VIDEO -->
+          <div class="panel" id="videoPanel" style="display:flex;align-items:center;justify-content:center;">
+            <div class="video-wrapper" style="width:100%;">
+              <video controls playsinline preload="metadata" poster="{{ url_for('static', filename='assets/demo-poster.jpg') }}">
+                <source src="{{ url_for('static', filename='assets/demo.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag. You can <a href="{{ url_for('static', filename='assets/demo.mp4') }}">download the demo</a>.
+              </video>
             </div>
           </div>
 
         </div> <!-- /.panel-wrap -->
       </div> <!-- /.modal-body -->
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- DEMO VIDEO MODAL (NEW) -->
+<!-- DEMO VIDEO MODAL retained (you removed only the demo button) -->
 <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content bg-dark text-white">
@@ -508,11 +489,8 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
       </div>
       <div class="modal-body">
         <div class="video-wrapper">
-          <!-- Replace the source below with your static file path or a remote URL -->
           <video controls playsinline preload="metadata" poster="{{ url_for('static', filename='assets/demo-poster.jpg') }}">
             <source src="{{ url_for('static', filename='assets/demo.mp4') }}" type="video/mp4">
-            <!-- Fallback: You can embed a YouTube iframe by uncommenting below and commenting out the <video> tag -->
-            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
             Your browser does not support the video tag. You can <a href="{{ url_for('static', filename='assets/demo.mp4') }}">download the demo</a>.
           </video>
         </div>
@@ -525,53 +503,30 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
 </div>
 
 <script>
-/* Modal form behavior: horizontal form, submit -> slide to result panel, back -> slide to form.
-   This script assumes your page already includes Bootstrap JS. It resets to form when modal opens.
-*/
-
+/* Modal behavior: on open show the left form + right video. Submit posts to /predict (keeps your original behavior). */
 (function(){
   const panelWrap = document.getElementById('panelWrap');
   const resultContent = document.getElementById('resultContent');
   const predictBtn = document.getElementById('predictBtn');
-  const backToFormBtn = document.getElementById('backToFormBtn');
   const tryNowModalEl = document.getElementById('tryNowModal');
 
-  // Show form panel (remove 'show-result' class) — safe reset function
-  function showFormPanel() {
-    panelWrap.classList.remove('show-result');
-    // ensure transform states for better fallback
+  function resetFormPanel() {
+    // ensure left form visible (we use two static panels side-by-side)
     document.getElementById('formPanel').style.transform = 'translateX(0)';
-    document.getElementById('resultPanel').style.transform = 'translateX(100%)';
-    // clear previous result
+    document.getElementById('videoPanel').style.transform = 'translateX(0)';
     resultContent.innerHTML = '';
   }
 
-  // show result panel
-  function showResultPanel() {
-    panelWrap.classList.add('show-result');
-    document.getElementById('formPanel').style.transform = 'translateX(-100%)';
-    document.getElementById('resultPanel').style.transform = 'translateX(0)';
-  }
-
-  // reset when modal opens: ensure form visible and focus first field
   tryNowModalEl.addEventListener('show.bs.modal', function () {
-    showFormPanel();
+    resetFormPanel();
     setTimeout(()=> document.getElementById('plasticType').focus(), 200);
   });
 
-  // ensure reset on hidden as well
   tryNowModalEl.addEventListener('hidden.bs.modal', function () {
-    showFormPanel();
+    resetFormPanel();
   });
 
-  // Back button -> return to form (keeps values)
-  //backToFormBtn.addEventListener('click', function(e){
-    //e.preventDefault();
-    //showFormPanel();
-    //setTimeout(()=> document.getElementById('plasticType').focus(), 300);
-  //});
-
-  // Submit: validation + request (same behavior as earlier). Slides to result panel showing errors or results.
+  // Submit: validation + request (keeps same API call and result rendering)
   predictBtn.addEventListener('click', async function(e){
     e.preventDefault();
     const btn = this;
@@ -589,28 +544,24 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
     // validations
     if (!ptype) {
       resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter the plastic type.</div>';
-      showResultPanel();
       btn.disabled = false;
       btn.innerText = origText;
       return;
     }
     if (!condition) {
       resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please select the plastic condition.</div>';
-      showResultPanel();
       btn.disabled = false;
       btn.innerText = origText;
       return;
     }
     if (weight === "" || isNaN(Number(weight)) || Number(weight) <= 0) {
       resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter a valid weight (>0).</div>';
-      showResultPanel();
       btn.disabled = false;
       btn.innerText = origText;
       return;
     }
     if (age === "" || isNaN(Number(age)) || Number(age) < 0) {
       resultContent.innerHTML = '<div class="alert alert-danger mb-0">Please enter a valid age (>=0).</div>';
-      showResultPanel();
       btn.disabled = false;
       btn.innerText = origText;
       return;
@@ -629,7 +580,6 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
         let txt = 'Server error';
         try { const j = await resp.json(); txt = j.error || j.details || JSON.stringify(j); } catch (err) {}
         resultContent.innerHTML = `<div class="alert alert-danger mb-0">Prediction failed: ${escapeHtml(txt)}</div>`;
-        showResultPanel();
       } else {
         const res = await resp.json();
         const resale = res.resale_value ?? res.resale ?? 'N/A';
@@ -644,27 +594,27 @@ Predicts a reuseability score (0–100) showing how durable and reusable the pla
             <p><strong>Reuse Score:</strong> ${escapeHtml(String(reuse))}</p>
           </div>
         `;
-        showResultPanel();
       }
     } catch (err) {
       console.error(err);
       resultContent.innerHTML = `<div class="alert alert-danger mb-0">Unexpected error: ${escapeHtml(err.message || String(err))}</div>`;
-      showResultPanel();
     } finally {
       btn.disabled = false;
       btn.innerText = origText;
     }
   });
 
-  // simple HTML escape utility
+  // small escape helper
   function escapeHtml(str) {
     if (str === null || str === undefined) return '';
     return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
   }
-})();
-panelWrap.classList.add('show-result');
-</script>
 
+  // dynamic year in footer
+  try { document.getElementById("year").innerText = new Date().getFullYear(); } catch(e){}
+
+})();
+</script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
